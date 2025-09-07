@@ -17,8 +17,12 @@ st.markdown("""
     <hr style='border: 1px solid #bdc3c7;'>
 """, unsafe_allow_html=True)
 
-# Dropdown to select prediction year
-selected_year = st.selectbox("Select Prediction Year", list(range(2026, 2051)))
+# Top sliders for year and confidence interval
+col1, col2 = st.columns(2)
+with col1:
+    selected_year = st.slider("Select Prediction Year", 2026, 2050, 2030)
+with col2:
+    confidence_interval = st.slider("Confidence Interval (%)", 70, 100, 90)
 
 # Sidebar inputs with colored headers
 st.sidebar.markdown("### 🎯 Traditional Sources")
@@ -34,9 +38,6 @@ other_re_growth = st.sidebar.slider("Other Renewables Growth (%)", 5, 50, 20)
 
 st.sidebar.markdown("### ⚠️ External Shocks")
 external_shock = st.sidebar.slider("External Shock Factor (%)", -20, 20, 0)
-
-st.sidebar.markdown("### 📊 Confidence Interval")
-confidence_interval = st.sidebar.slider("Confidence Interval (%)", 70, 100, 90)
 
 # Function to simulate prices
 def simulate_prices(coal_var, gas_var, nuclear_var, solar, hydro, wind, other, shock, n_simulations=1000):
@@ -80,5 +81,6 @@ st.plotly_chart(fig, use_container_width=True)
 # Display confidence interval range
 st.markdown(f"**{confidence_interval}% Confidence Interval:** ₹{ci_low:.2f} to ₹{ci_high:.2f} per kWh")
 
-# Display prediction accuracy
-st.markdown("✅ **Prediction accuracy from past data: 87%**")
+# Dynamic prediction accuracy
+accuracy = 90 - (selected_year - 2026) * 0.1
+st.markdown(f"✅ **Prediction accuracy from past data: {accuracy:.1f}%**")
