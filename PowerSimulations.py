@@ -86,9 +86,11 @@ fig.update_layout(title=f"Simulated IEX Price Distribution - Year {selected_year
 
 st.plotly_chart(fig, use_container_width=True)
 
-# Display confidence interval range
+# Lifted and enlarged text below the graph
+st.markdown("<div style='margin-top:-20px;'>", unsafe_allow_html=True)
 st.markdown(f"<p style='font-size:18px'><strong>{confidence_interval}% Confidence Interval:</strong> ₹{ci_low:.2f} to ₹{ci_high:.2f} per kWh</p>", unsafe_allow_html=True)
 
 # Dynamic prediction accuracy
 accuracy = max(50.0, 90 - (selected_year - 2026) * 0.5)
 st.markdown(f"<p style='font-size:18px'>✅ <strong>Prediction accuracy from past data:</strong> {accuracy:.1f}%</p>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
